@@ -4,10 +4,10 @@ A robust Spring Boot application for managing core banking operations, such as c
 ## Table of contents
 -[Features](#features)
 -[Useage](#useage)
--[GettingStarted](#getting started)
--[ProjectStructure](#project structure)
+-[GettingStarted](#gettingstarted)
+-[ProjectStructure](#projectstructure)
 -[API](#api)
--[DatabaseSchema](#database schema)
+-[DatabaseSchema](#databaseschema)
 -[License](#license)
 
 ## Features
