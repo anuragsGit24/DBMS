@@ -2,13 +2,13 @@
 A robust Spring Boot application for managing core banking operations, such as customer accounts, transactions, loans, and branches, with a RESTful API design and seamless database interactions using Spring Data JPA.
 
 ## Table of contents
--[Features](#features)
--[Useage](#useage)
--[GettingStarted](#gettingstarted)
--[ProjectStructure](#projectstructure)
--[API](#api)
--[DatabaseSchema](#databaseschema)
--[License](#license)
+  -[Features](#features)
+  -[Useage](#useage)
+  -[GettingStarted](#gettingstarted)
+  -[ProjectStructure](#projectstructure)
+  -[API](#api)
+  -[DatabaseSchema](#databaseschema)
+  -[License](#license)
 
 ## Features
 Customer Management: CRUD operations for managing customer details.
