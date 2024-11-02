@@ -3,7 +3,7 @@ const apiUrl = "http://localhost:8080/api";
 // Customer Functions
 async function fetchCustomers() {
     try {
-        const response = await fetch(`${apiUrl}/customers`);
+        const response = await fetch(`http://localhost:8080/api/customers`);
         const data = await response.json();
         document.getElementById("customerDetails").innerHTML = JSON.stringify(data, null, 2);
     } catch (error) {
@@ -34,7 +34,7 @@ document.getElementById("customerForm").addEventListener("submit", async (event)
 // Account Functions
 async function fetchAccounts() {
     try {
-        const response = await fetch(`${apiUrl}/accounts`);
+        const response = await fetch(`http://localhost:8080/api/accounts`);
         const data = await response.json();
         document.getElementById("accountDetails").innerHTML = JSON.stringify(data, null, 2);
     } catch (error) {
@@ -66,7 +66,7 @@ document.getElementById("accountForm").addEventListener("submit", async (event) 
 // Transaction Functions
 async function fetchTransactions() {
     try {
-        const response = await fetch(`${apiUrl}/transactions`);
+        const response = await fetch(`http://localhost:8080/api/transactions`);
         const data = await response.json();
         document.getElementById("transactionDetails").innerHTML = JSON.stringify(data, null, 2);
     } catch (error) {
@@ -98,7 +98,7 @@ document.getElementById("transactionForm").addEventListener("submit", async (eve
 // Loan Functions
 async function fetchLoans() {
     try {
-        const response = await fetch(`${apiUrl}/loans`);
+        const response = await fetch(`http://localhost:8080/api/loans`);
         const data = await response.json();
         document.getElementById("loanDetails").innerHTML = JSON.stringify(data, null, 2);
     } catch (error) {
@@ -132,7 +132,7 @@ document.getElementById("loanForm").addEventListener("submit", async (event) => 
 // Branch Functions
 async function fetchBranches() {
     try {
-        const response = await fetch(`${apiUrl}/branches`);
+        const response = await fetch(`http://localhost:8080/api/branches`);
         const data = await response.json();
         document.getElementById("branchDetails").innerHTML = JSON.stringify(data, null, 2);
     } catch (error) {
@@ -162,7 +162,7 @@ document.getElementById("branchForm").addEventListener("submit", async (event) =
 // Fixed Deposit Functions
 async function fetchFixedDeposits() {
     try {
-        const response = await fetch(`${apiUrl}/fixedDeposits`);
+        const response = await fetch(`http://localhost:8080/api/fixedDeposits`);
         const data = await response.json();
         document.getElementById("fixedDepositDetails").innerHTML = JSON.stringify(data, null, 2);
     } catch (error) {
@@ -195,7 +195,7 @@ document.getElementById("fixedDepositForm").addEventListener("submit", async (ev
 // Card Management Functions
 async function fetchCards() {
     try {
-        const response = await fetch(`${apiUrl}/cards`);
+        const response = await fetch(`http://localhost:8080/api/cards`);
         const data = await response.json();
         document.getElementById("cardDetails").innerHTML = JSON.stringify(data, null, 2);
     } catch (error) {
@@ -227,7 +227,7 @@ document.getElementById("cardForm").addEventListener("submit", async (event) => 
 // UPI Payment Functions
 async function fetchUpiPayments() {
     try {
-        const response = await fetch(`${apiUrl}/upiPayments`);
+        const response = await fetch(`http://localhost:8080/api/upiPayments`);
         const data = await response.json();
         document.getElementById("upiPaymentDetails").innerHTML = JSON.stringify(data, null, 2);
     } catch (error) {
