@@ -4,7 +4,9 @@ public class CardPaymentDTO {
     private Long paymentId;
     private double amount;
     private String cardNumber;
-    private Long transactionId; // Foreign key reference
+    private Long AccountId; // Foreign key reference
+
+    private String transactionType; // "Deposit" or "Withdraw"
 
     // Getters and Setters
     public Long getPaymentId() {
@@ -31,12 +33,20 @@ public class CardPaymentDTO {
         this.cardNumber = cardNumber;
     }
 
-    public Long getTransactionId() {
-        return transactionId;
+    public Long getAccountId() {
+        return AccountId;
     }
 
-    public void setTransactionId(Long transactionId) {
-        this.transactionId = transactionId;
+    public void setAccountId(Long accountId) {
+        this.AccountId = accountId;
+    }
+
+    public String getTransactionType() {
+        return transactionType;
+    }
+
+    public void setTransactionType(String transactionType) {
+        this.transactionType = transactionType;
     }
 }
 

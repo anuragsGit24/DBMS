@@ -3,18 +3,15 @@ package net.anurag.banking.service.impl;
 import net.anurag.banking.dto.CardPaymentDTO;
 import net.anurag.banking.entity.Account;
 import net.anurag.banking.entity.CardPayment;
-import net.anurag.banking.entity.Transaction;
 import net.anurag.banking.mapper.CardPaymentMapper;
 import net.anurag.banking.repository.AccountRepository;
 import net.anurag.banking.repository.CardPaymentRepository;
-import net.anurag.banking.repository.TransactionRepository;
 import net.anurag.banking.service.CardPaymentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -24,8 +21,6 @@ public class CardPaymentServiceImpl implements CardPaymentService {
     private CardPaymentRepository cardPaymentRepository;
 
     @Autowired
-    private TransactionRepository transactionRepository;
-    @Autowired
     private AccountRepository accountRepository;
 
     @Autowired
@@ -33,93 +28,72 @@ public class CardPaymentServiceImpl implements CardPaymentService {
 
     @Override
     public List<CardPaymentDTO> getAllCardPayments() {
-        try {
-            return cardPaymentRepository.findAll().stream()
-                    .map(cardPaymentMapper::toDTO)
-                    .collect(Collectors.toList());
-        } catch (Exception e) {
-            // Log error or handle exception as needed
-            throw new RuntimeException("Failed to fetch card payments: " + e.getMessage());
-        }
+        return cardPaymentRepository.findAll().stream()
+                .map(cardPaymentMapper::toDTO)
+                .collect(Collectors.toList());
     }
 
     @Override
     public CardPaymentDTO getCardPaymentById(Long paymentId) {
-        try {
-            CardPayment cardPayment = cardPaymentRepository.findById(paymentId)
-                    .orElseThrow(() -> new Exception("CardPayment not found with ID: " + paymentId));
-            return cardPaymentMapper.toDTO(cardPayment);
-        } catch (Exception e) {
-            throw new RuntimeException("Error fetching CardPayment with ID " + paymentId + ": " + e.getMessage());
-        }
+        CardPayment cardPayment = cardPaymentRepository.findById(paymentId)
+                .orElseThrow(() -> new RuntimeException("CardPayment not found with ID: " + paymentId));
+        return cardPaymentMapper.toDTO(cardPayment);
     }
 
     @Override
+    @Transactional
     public CardPaymentDTO createCardPayment(CardPaymentDTO cardPaymentDTO) {
-        try {
-            Transaction transaction = transactionRepository.findById(cardPaymentDTO.getTransactionId())
-                    .orElseThrow(() -> new IllegalArgumentException("Transaction not found"));
+        // Fetch the account associated with the CardPayment
+        Account account = accountRepository.findById(cardPaymentDTO.getAccountId())
+                .orElseThrow(() -> new IllegalArgumentException("Account not found with ID: " + cardPaymentDTO.getAccountId()));
 
-            // Update account balance based on transaction type
-            Account account = accountRepository.findById(transaction.getAccount().getId())
-                    .orElseThrow(() -> new IllegalArgumentException("Account not found"));
-
-            if ("deposit".equalsIgnoreCase(transaction.getTransactionType())) {
-                account.setBalance(account.getBalance() + cardPaymentDTO.getAmount());
-            } else if ("withdrawal".equalsIgnoreCase(transaction.getTransactionType())) {
-                if (account.getBalance() < cardPaymentDTO.getAmount()) {
-                    throw new IllegalArgumentException("Insufficient balance");
-                }
-                account.setBalance(account.getBalance() - cardPaymentDTO.getAmount());
+        // Update account balance based on transaction type
+        if ("deposit".equalsIgnoreCase(cardPaymentDTO.getTransactionType())) {
+            account.setBalance(account.getBalance() + cardPaymentDTO.getAmount());
+        } else if ("withdraw".equalsIgnoreCase(cardPaymentDTO.getTransactionType())) {
+            if (account.getBalance() < cardPaymentDTO.getAmount()) {
+                throw new IllegalArgumentException("Insufficient balance for withdrawal");
             }
-
-            // Save updated account
-            accountRepository.save(account);
-
-            // Create CardPayment
-            CardPayment cardPayment = cardPaymentMapper.toEntity(cardPaymentDTO, transaction);
-            cardPaymentRepository.save(cardPayment);
-
-            return cardPaymentMapper.toDTO(cardPayment);
-        } catch (Exception e) {
-            // Handle exception (log it, rethrow it, etc.)
-            throw new RuntimeException("Error creating card payment", e);
+            account.setBalance(account.getBalance() - cardPaymentDTO.getAmount());
+        } else {
+            throw new IllegalArgumentException("Invalid transaction type. Must be 'deposit' or 'withdraw'.");
         }
-    }
 
+        // Save the updated account balance
+        accountRepository.save(account);
 
-    @Override
-    @Transactional
-    public CardPaymentDTO updateCardPayment(Long paymentId, CardPaymentDTO cardPaymentDTO) throws Exception {
-        try {
-            CardPayment existingCardPayment = cardPaymentRepository.findById(paymentId)
-                    .orElseThrow(() -> new Exception("CardPayment not found with ID: " + paymentId));
+        // Create and save the CardPayment
+        CardPayment cardPayment = cardPaymentMapper.toEntity(cardPaymentDTO, account);
+        cardPaymentRepository.save(cardPayment);
 
-            Transaction transaction = transactionRepository.findById(cardPaymentDTO.getTransactionId())
-                    .orElseThrow(() -> new Exception("Transaction not found with ID: " + cardPaymentDTO.getTransactionId()));
-
-            existingCardPayment.setAmount(cardPaymentDTO.getAmount());
-            existingCardPayment.setCardNumber(cardPaymentDTO.getCardNumber());
-            existingCardPayment.setTransaction(transaction);
-
-            cardPaymentRepository.save(existingCardPayment);
-
-            return cardPaymentMapper.toDTO(existingCardPayment);
-        } catch (Exception e) {
-            throw e;
-        }
+        return cardPaymentMapper.toDTO(cardPayment);
     }
 
     @Override
     @Transactional
-    public void deleteCardPayment(Long paymentId) throws Exception {
-        try {
-            CardPayment cardPayment = cardPaymentRepository.findById(paymentId)
-                    .orElseThrow(() -> new Exception("CardPayment not found with ID: " + paymentId));
+    public CardPaymentDTO updateCardPayment(Long paymentId, CardPaymentDTO cardPaymentDTO) {
+        CardPayment existingCardPayment = cardPaymentRepository.findById(paymentId)
+                .orElseThrow(() -> new RuntimeException("CardPayment not found with ID: " + paymentId));
 
-            cardPaymentRepository.delete(cardPayment);
-        } catch (Exception e) {
-            throw e;
-        }
+        Account account = accountRepository.findById(cardPaymentDTO.getAccountId())
+                .orElseThrow(() -> new RuntimeException("Account not found with ID: " + cardPaymentDTO.getAccountId()));
+
+        existingCardPayment.setAmount(cardPaymentDTO.getAmount());
+        existingCardPayment.setCardNumber(cardPaymentDTO.getCardNumber());
+        existingCardPayment.setTransactionType(cardPaymentDTO.getTransactionType());
+        existingCardPayment.setAccount(account);
+
+        cardPaymentRepository.save(existingCardPayment);
+
+        return cardPaymentMapper.toDTO(existingCardPayment);
+    }
+
+    @Override
+    @Transactional
+    public void deleteCardPayment(Long paymentId) {
+        CardPayment cardPayment = cardPaymentRepository.findById(paymentId)
+                .orElseThrow(() -> new RuntimeException("CardPayment not found with ID: " + paymentId));
+
+        cardPaymentRepository.delete(cardPayment);
     }
 }

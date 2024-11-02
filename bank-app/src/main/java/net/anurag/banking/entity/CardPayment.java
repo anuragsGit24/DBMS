@@ -12,9 +12,13 @@ public class CardPayment {
     private double amount;
     private String cardNumber;
 
+
     @ManyToOne
-    @JoinColumn(name = "transaction_id", nullable = false)
-    private Transaction transaction;
+    @JoinColumn(name = "account_id", nullable = false)
+    private Account account;
+
+    @Column(nullable = false, length = 10)
+    private String transactionType; // "Deposit" or "Withdraw"
 
     // Getters and Setters
     public Long getPaymentId() {
@@ -41,12 +45,20 @@ public class CardPayment {
         this.cardNumber = cardNumber;
     }
 
-    public Transaction getTransaction() {
-        return transaction;
+    public Account getAccount() {
+        return account;
     }
 
-    public void setTransaction(Transaction transaction) {
-        this.transaction = transaction;
+    public void setAccount(Account account) {
+        this.account = account;
+    }
+
+    public String getTransactionType() {
+        return transactionType;
+    }
+
+    public void setTransactionType(String transactionType) {
+        this.transactionType = transactionType;
     }
 }
 
