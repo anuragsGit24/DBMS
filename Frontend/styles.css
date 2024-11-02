@@ -1,0 +1,108 @@
+/* styles.css */
+body {
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f8f9fa; /* Light gray background for a clean look */
+    color: #333;
+}
+
+header {
+    background-color: #0056b3; /* Darker blue for header */
+    color: white;
+    padding: 1rem 0;
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+h1 {
+    margin: 0;
+    font-size: 2.5rem;
+}
+
+main {
+    padding: 20px;
+}
+
+section {
+    background: white;
+    padding: 20px;
+    margin: 20px 0;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+h2 {
+    color: #0056b3; /* Consistent blue color for section titles */
+    font-size: 1.8rem;
+    margin-bottom: 15px;
+    border-bottom: 2px solid #e9ecef; /* Light border for section separation */
+    padding-bottom: 10px;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+input[type="text"],
+input[type="number"],
+button {
+    padding: 10px;
+    margin: 5px 0;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 1rem;
+}
+
+input:focus {
+    border-color: #0056b3;
+    outline: none;
+    box-shadow: 0 0 5px rgba(0, 86, 179, 0.5); /* Match focus color */
+}
+
+button {
+    background-color: #28a745; /* Green for action buttons */
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    border: none; /* Remove border for a cleaner button look */
+    border-radius: 4px; /* Slightly round the corners */
+}
+
+button:hover {
+    background-color: #218838; /* Darker green on hover */
+}
+
+footer {
+    text-align: center;
+    padding: 10px 0;
+    background-color: #0056b3; /* Consistent with header */
+    color: white;
+    position: relative;
+    bottom: 0;
+    width: 100%;
+}
+
+button:disabled {
+    background-color: #ccc; /* Disabled button style */
+    cursor: not-allowed;
+}
+
+label {
+    margin: 5px 0;
+    font-weight: bold; /* Bold labels for better readability */
+}
+
+select {
+    padding: 10px;
+    margin: 5px 0;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+select:focus {
+    border-color: #0056b3;
+    outline: none;
+    box-shadow: 0 0 5px rgba(0, 86, 179, 0.5); /* Match focus color */
+}
