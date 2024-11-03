@@ -18,7 +18,7 @@
             <button onclick="fetchCustomers()">View All Customers</button>
             <form id="customerForm">
                 <input type="text" id="customerName" placeholder="Customer Name" required>
-                <input type="text" id="customerContact" placeholder="Contact Information" required>
+                <input type="text" id="customerContact" placeholder="Phone Number" required>
                 <button type="submit">Add Customer</button>
             </form>
             <div id="customerDetails"></div>
@@ -30,20 +30,32 @@
             <button onclick="fetchAccounts()">View All Accounts</button>
             <form id="accountForm">
                 <input type="text" id="accountCustomerId" placeholder="Customer ID" required>
-                <input type="text" id="accountType" placeholder="Account Type (e.g., Savings)" required>
+                <input type="text" id="accountNumber" placeholder="Account Number" required>
+				<input type="text" id="accountHolderName" placeholder="Account Holder Name" required>
                 <input type="number" id="initialBalance" placeholder="Initial Balance" required>
                 <button type="submit">Add Account</button>
             </form>
             <div id="accountDetails"></div>
         </section>
-
+        <!-- Employee Section -->
+        <section id="employeeSection">
+            <h2>Employee Management</h2>
+            <button onclick="fetchEmployees()">View All Employees</button>
+            <form id="employeeForm">
+                <input type="text" id="employeeName" placeholder="Employee Name" required>
+                <input type="text" id="employeeposition" placeholder="Employee Position" required>
+				<input type="number" id="employeeAccountId" placeholder="Account ID" required>
+                <button type="submit">Add Employee</button>
+            </form>
+            <div id="employeeDetails"></div>
+        </section>
         <!-- Transaction Section -->
         <section id="transactionSection">
             <h2>Transaction Management</h2>
             <button onclick="fetchTransactions()">View All Transactions</button>
             <form id="transactionForm">
                 <input type="text" id="transactionAccountId" placeholder="Account ID" required>
-                <input type="text" id="transactionType" placeholder="Type (Debit/Credit)" required>
+                <input type="text" id="transactionType" placeholder="Type (Card/UPI)" required>
                 <input type="number" id="transactionAmount" placeholder="Amount" required>
                 <button type="submit">Submit Transaction</button>
             </form>
@@ -55,11 +67,11 @@
             <h2>Loan Management</h2>
             <button onclick="fetchLoans()">View All Loans</button>
             <form id="loanForm">
-                <input type="text" id="loanCustomerId" placeholder="Customer ID" required>
+                <input type="text" id="loanAccountId" placeholder="Account ID" required>
                 <input type="text" id="loanType" placeholder="Loan Type (e.g., Personal)" required>
                 <input type="number" id="loanAmount" placeholder="Loan Amount" required>
                 <input type="number" id="loanInterestRate" placeholder="Interest Rate (%)" required>
-                <input type="number" id="loanDuration" placeholder="Duration (Months)" required>
+               
                 <button type="submit">Apply for Loan</button>
             </form>
             <div id="loanDetails"></div>
@@ -70,8 +82,9 @@
             <h2>Branch Management</h2>
             <button onclick="fetchBranches()">View All Branches</button>
             <form id="branchForm">
+			    <input type="text" id="branchAccountId" placeholder="Account ID" required>
                 <input type="text" id="branchLocation" placeholder="Branch Location" required>
-                <input type="text" id="branchContact" placeholder="Contact Information" required>
+                <input type="text" id="branchName" placeholder="Branch Name" required>
                 <button type="submit">Add Branch</button>
             </form>
             <div id="branchDetails"></div>
@@ -85,10 +98,12 @@
             <h2>Fixed Deposit Management</h2>
             <button onclick="fetchFixedDeposits()">View All Fixed Deposits</button>
             <form id="fixedDepositForm">
-                <input type="text" id="fdCustomerId" placeholder="Customer ID" required>
+                <input type="text" id="fdAccountId" placeholder="Account ID" required>
+				<input type="text" id="fdEmployeeId" placeholder="Employee ID" required>
                 <input type="number" id="fdAmount" placeholder="Deposit Amount" required>
                 <input type="number" id="fdInterestRate" placeholder="Interest Rate (%)" required>
-                <input type="number" id="fdDuration" placeholder="Duration (Months)" required>
+				<label for="fdmaturityDate" style="font-weight: normal;">Maturity Date:</label>
+                <input type="date" id="fdmaturityDate" placeholder="Maturity Date" required>
                 <button type="submit">Create Fixed Deposit</button>
             </form>
             <div id="fixedDepositDetails"></div>
@@ -99,10 +114,10 @@
             <h2>Card Management</h2>
             <button onclick="fetchCards()">View All Cards</button>
             <form id="cardForm">
-                <input type="text" id="cardCustomerId" placeholder="Customer ID" required>
-                <input type="text" id="cardType" placeholder="Card Type (Credit/Debit)" required>
+                <input type="text" id="cardTransactionId" placeholder="Transaction ID" required>
+                <input type="number" id="amount" placeholder="Amount" required>
                 <input type="text" id="cardNumber" placeholder="Card Number" required>
-                <button type="submit">Issue Card</button>
+                <button type="submit">Make Card Payment</button>
             </form>
             <div id="cardDetails"></div>
         </section>
@@ -112,9 +127,11 @@
             <h2>UPI Payments</h2>
             <button onclick="fetchUpiPayments()">View All UPI Payments</button>
             <form id="upiPaymentForm">
-                <input type="text" id="upiCustomerId" placeholder="Customer ID" required>
-                <input type="text" id="upiReceiverId" placeholder="Receiver ID" required>
+                <input type="text" id="upiId" placeholder="UPI ID" required>
+                <input type="number" id="upiTransactionId" placeholder="Transaction ID" required>
+				<input type="number" id="upiAccountId" placeholder="Account ID" required>
                 <input type="number" id="upiAmount" placeholder="Amount" required>
+				<input type="text" id="upiTransactionType" placeholder="Transaction Type (Send/Receive)" required>
                 <button type="submit">Make UPI Payment</button>
             </form>
             <div id="upiPaymentDetails"></div>
