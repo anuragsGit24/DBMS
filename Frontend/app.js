@@ -3,38 +3,50 @@ const apiUrl = "http://localhost:8080/api";
 // Customer Functions
 async function fetchCustomers() {
     try {
-        const response = await fetch(`http://localhost:8080/api/customers`);
+        const response = await fetch(`${apiUrl}/customers`); // Ensure this uses backticks
         const data = await response.json();
         document.getElementById("customerDetails").innerHTML = JSON.stringify(data, null, 2);
-    } catch (error) {
+    } catch (error){
         console.error("Error fetching customers:", error);
     }
 }
 
-document.getElementById("customerForm").addEventListener("submit", async (event) => {
-    event.preventDefault();
-    const name = document.getElementById("customerName").value;
-    const contact = document.getElementById("customerContact").value;
 
-    try {
-        await fetch(`${apiUrl}/customers`, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({ name, contact }),
-        });
-        alert("Customer added successfully");
-        fetchCustomers();
-    } catch (error) {
-        console.error("Error adding customer:", error);
-    }
-});
+    document.getElementById("customerForm").addEventListener("submit", async (event) => {
+        event.preventDefault(); // Prevent the default form submission
+
+        const name = document.getElementById("customerName").value;
+        const contact = document.getElementById("customerContact").value;
+
+        console.log("Form submitted with:", { name, contact }); // Debugging statement
+
+        try {
+            const response = await fetch(`${apiUrl}/customers`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ name, contact }),
+            });
+
+            if (!response.ok) {
+                const errorData = await response.json();
+                throw new Error(`Error: ${errorData.message || response.statusText}`);
+            }
+
+            alert("Customer added successfully");
+            fetchCustomers(); // Refresh the customer list
+        } catch (error) {
+            console.error("Error adding customer:", error);
+            alert(`Failed to add customer: ${error.message}`);
+        }
+    });
+
 
 // Account Functions
 async function fetchAccounts() {
     try {
-        const response = await fetch(`http://localhost:8080/api/accounts`);
+        const response = await fetch(`${apiUrl}/accounts`);
         const data = await response.json();
         document.getElementById("accountDetails").innerHTML = JSON.stringify(data, null, 2);
     } catch (error) {
@@ -66,7 +78,7 @@ document.getElementById("accountForm").addEventListener("submit", async (event) 
 // Transaction Functions
 async function fetchTransactions() {
     try {
-        const response = await fetch(`http://localhost:8080/api/transactions`);
+        const response = await fetch(`${apiUrl}/transactions`);
         const data = await response.json();
         document.getElementById("transactionDetails").innerHTML = JSON.stringify(data, null, 2);
     } catch (error) {
@@ -98,7 +110,7 @@ document.getElementById("transactionForm").addEventListener("submit", async (eve
 // Loan Functions
 async function fetchLoans() {
     try {
-        const response = await fetch(`http://localhost:8080/api/loans`);
+        const response = await fetch(`${apiUrl}/loans`);
         const data = await response.json();
         document.getElementById("loanDetails").innerHTML = JSON.stringify(data, null, 2);
     } catch (error) {
@@ -132,7 +144,7 @@ document.getElementById("loanForm").addEventListener("submit", async (event) => 
 // Branch Functions
 async function fetchBranches() {
     try {
-        const response = await fetch(`http://localhost:8080/api/branches`);
+        const response = await fetch(`${apiUrl}/branches`);
         const data = await response.json();
         document.getElementById("branchDetails").innerHTML = JSON.stringify(data, null, 2);
     } catch (error) {
@@ -159,10 +171,11 @@ document.getElementById("branchForm").addEventListener("submit", async (event) =
         console.error("Error adding branch:", error);
     }
 });
+
 // Fixed Deposit Functions
 async function fetchFixedDeposits() {
     try {
-        const response = await fetch(`http://localhost:8080/api/fixedDeposits`);
+        const response = await fetch(`${apiUrl}/fixedDeposits`);
         const data = await response.json();
         document.getElementById("fixedDepositDetails").innerHTML = JSON.stringify(data, null, 2);
     } catch (error) {
@@ -195,7 +208,7 @@ document.getElementById("fixedDepositForm").addEventListener("submit", async (ev
 // Card Management Functions
 async function fetchCards() {
     try {
-        const response = await fetch(`http://localhost:8080/api/cards`);
+        const response = await fetch(`${apiUrl}/cards`);
         const data = await response.json();
         document.getElementById("cardDetails").innerHTML = JSON.stringify(data, null, 2);
     } catch (error) {
@@ -227,7 +240,7 @@ document.getElementById("cardForm").addEventListener("submit", async (event) => 
 // UPI Payment Functions
 async function fetchUpiPayments() {
     try {
-        const response = await fetch(`http://localhost:8080/api/upiPayments`);
+        const response = await fetch(`${apiUrl}/upiPayments`);
         const data = await response.json();
         document.getElementById("upiPaymentDetails").innerHTML = JSON.stringify(data, null, 2);
     } catch (error) {
@@ -249,7 +262,13 @@ document.getElementById("upiPaymentForm").addEventListener("submit", async (even
             },
             body: JSON.stringify({ customerId, receiverId, amount }),
         });
-        alert("UPI Payment successful");
+        alert("UPI payment successful");
+        fetchUpiPayments();
+    } catch (error) {
+        console.error("Error processing UPI payment:", error);
+    }
+});
+
         fetchUpiPayments();
     } catch (error) {
         console.error("Error processing UPI payment:", error);
