@@ -14,6 +14,8 @@ A robust Spring Boot application for managing core banking operations, such as c
 - Loan Management
 - Employee Management
 - Fixed Deposit Management
+- CardPayment Management
+- UpiTransaction Management
 
 ## Technologies Used
 
