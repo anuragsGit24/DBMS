@@ -43,7 +43,7 @@
             <button onclick="fetchEmployees()">View All Employees</button>
             <form id="employeeForm">
                 <input type="text" id="employeeName" placeholder="Employee Name" required>
-                <input type="text" id="employeeposition" placeholder="Employee Position" required>
+                <input type="text" id="employeePosition" placeholder="Employee Position" required>
 				<input type="number" id="employeeAccountId" placeholder="Account ID" required>
                 <button type="submit">Add Employee</button>
             </form>
@@ -55,7 +55,13 @@
             <button onclick="fetchTransactions()">View All Transactions</button>
             <form id="transactionForm">
                 <input type="text" id="transactionAccountId" placeholder="Account ID" required>
-                <input type="text" id="transactionType" placeholder="Type (Card/UPI)" required>
+                <label for="transactionType" style="font-weight: normal;">Transaction Type:</label>
+				<select id="transactionType" required>
+					<option value="" disabled selected>Select Transaction Type</option>
+					<option value="Deposit">Deposit</option>
+					<option value="Withdrawal">Withdrawal</option>
+				</select>
+
                 <input type="number" id="transactionAmount" placeholder="Amount" required>
                 <button type="submit">Submit Transaction</button>
             </form>
@@ -114,9 +120,15 @@
             <h2>Card Management</h2>
             <button onclick="fetchCards()">View All Cards</button>
             <form id="cardForm">
-                <input type="text" id="cardTransactionId" placeholder="Transaction ID" required>
+                <input type="number" id="cardAccountId" placeholder="Account ID" required>
                 <input type="number" id="amount" placeholder="Amount" required>
                 <input type="text" id="cardNumber" placeholder="Card Number" required>
+				<label for="cardTransactionType" style="font-weight: normal;">Transaction Type:</label>
+                <select id="cardTransactionType" required>
+                <option value="" disabled selected>Select Transaction Type</option>
+                <option value="Deposit">deposit</option>
+                <option value="Withdraw">withdraw</option>
+                </select>
                 <button type="submit">Make Card Payment</button>
             </form>
             <div id="cardDetails"></div>
@@ -131,7 +143,13 @@
                 <input type="number" id="upiTransactionId" placeholder="Transaction ID" required>
 				<input type="number" id="upiAccountId" placeholder="Account ID" required>
                 <input type="number" id="upiAmount" placeholder="Amount" required>
-				<input type="text" id="upiTransactionType" placeholder="Transaction Type (Send/Receive)" required>
+				<label for="upiTransactionType" style="font-weight: normal;">Transaction Type:</label>
+				<select id="upiTransactionType" required>
+					<option value="" disabled selected>Select Transaction Type</option>
+					<option value="Deposit">Deposit</option>
+					<option value="Withdraw">Withdraw</option>
+				</select>
+
                 <button type="submit">Make UPI Payment</button>
             </form>
             <div id="upiPaymentDetails"></div>
