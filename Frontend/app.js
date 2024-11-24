@@ -600,7 +600,7 @@ async function fetchCards() {
             cardDiv.classList.add("card-entry");
 
             cardDiv.innerHTML = `
-                <p><strong>Transaction ID:</strong> ${card.transactionId || "N/A"}</p>
+                <p><strong>Account ID:</strong> ${card.accountId || "N/A"}</p>
                 <p><strong>Card Number:</strong> ${card.cardNumber || "N/A"}</p>
                 <p><strong>Amount:</strong> ${card.amount || "N/A"}</p>
                 <hr> <!-- Optional: Adds a horizontal line between entries -->
@@ -612,13 +612,13 @@ async function fetchCards() {
     }
 }
 
-// Event listener to add a new card payment when the form is submitted
 document.getElementById("cardForm").addEventListener("submit", async (event) => {
     event.preventDefault();
 
-    const transactionId = document.getElementById("cardTransactionId").value;
+    const accountId = document.getElementById("cardAccountId").value;
     const cardNumber = document.getElementById("cardNumber").value;
     const amount = document.getElementById("amount").value;
+    const transactionType = document.getElementById("cardTransactionType").value;
 
     try {
         const response = await fetch(`${apiUrl}/card-payments`, {
@@ -626,13 +626,29 @@ document.getElementById("cardForm").addEventListener("submit", async (event) => 
             headers: {
                 "Content-Type": "application/json",
             },
-            body: JSON.stringify({ transactionId, cardNumber, amount }),
+            body: JSON.stringify({ accountId, cardNumber, amount, transactionType }),
         });
 
         if (!response.ok) {
-            const errorData = await response.json();
-            throw new Error(`Error: ${errorData.message || response.statusText}`);
+            // Attempt to retrieve error message
+            const errorText = await response.text();
+            let errorMessage = "An unexpected error occurred";
+
+            if (errorText) {
+                try {
+                    const errorJson = JSON.parse(errorText); 
+                    errorMessage = errorJson.message || response.statusText || errorMessage;
+                } catch {
+                    errorMessage = response.statusText || errorMessage;
+                }
+            }
+
+            throw new Error(errorMessage);
         }
+
+        // Handle successful response, parse only if not empty
+        const responseData = await response.text();
+        const data = responseData ? JSON.parse(responseData) : null;
 
         alert("Card payment done successfully");
         fetchCards(); // Refresh the card payment list
@@ -641,6 +657,7 @@ document.getElementById("cardForm").addEventListener("submit", async (event) => 
         alert(`Failed to process card payment: ${error.message}`);
     }
 });
+
 // UPI Payment Functions
 async function fetchUpiPayments() {
     try {
@@ -704,8 +721,4 @@ document.getElementById("upiPaymentForm").addEventListener("submit", async (even
 });
 
 
-        fetchUpiPayments();
-    } catch (error) {
-        console.error("Error processing UPI payment:", error);
-    }
-});
+    
