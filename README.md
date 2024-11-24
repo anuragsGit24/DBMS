@@ -53,6 +53,5 @@ spring.jpa.hibernate.ddl-auto=update
 ```bash
 ./mvnw spring-boot:run
 ```
-- The API will be accessible at http://localhost:8080/api
 
 
