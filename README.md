@@ -24,6 +24,7 @@ A robust Spring Boot application for managing core banking operations, such as c
 - Spring Data JPA: Simplifies interactions with relational databases.
 - MySQL: Database for storing structured bank data.
 - Postman: For testing API endpoints.
+- HTML/CSS/JavaScript : Frontend forms for Banking App
 
 # Getting Started
 ## Prerequisites
